@@ -33,5 +33,5 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: Gepoint
+    password: houj@123
     url: jdbc:mysql://localhost:3306/zwfwtest?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
