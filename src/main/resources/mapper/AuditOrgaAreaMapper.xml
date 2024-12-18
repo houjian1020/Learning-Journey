@@ -8,4 +8,79 @@
     <select id="findAll" resultType="com.springboot.demo.entry.AuditOrgaArea">
         select * from audit_orga_area;
     </select>
+
+    <!--模糊查询like语句该怎么写-->
+    <!-- CONCAT(’%’,#{ouname},’%’) 使用CONCAT()函数，（推荐）-->
+    <select id="findlistByOuname" resultType="com.springboot.demo.entry.AuditOrgaArea">
+        select * from audit_orga_area where ouname like concat('%',#{ouname},'%');
+    </select>
+
+    <!--在mapper中如何传递多个参数-->
+    <!--方法1：顺序传参法-->
+    <select id="findByCondition" resultType="com.springboot.demo.entry.AuditOrgaArea">
+        select * from audit_orga_area where ouguid = #{ouguid} and ouname = #{ouname}
+    </select>
+
+   <!-- 方法2：Map传参法-->
+ <!--   #{}里面的名称对应的是Map里面的key名称-->
+    <select id="findByGuid" resultMap="AuditOrgaAreaMap">
+        select * from audit_orga_area where rowguid = #{rowguid}
+    </select>
+
+    <!-- Bean传参法 -->
+    <select id="findByBean" parameterType="com.springboot.demo.entry.AuditOrgaArea" resultType="com.springboot.demo.entry.AuditOrgaArea">
+        select * from audit_orga_area where rowguid = #{rowguid}
+    </select>
+
+
+    <!--使用foreach标签-->
+    <!--在 INSERT 语句中使用 <foreach>-->
+    <insert id="insertOrgaArea">
+        INSERT INTO audit_orga_area (RowGuid, OperateUserName,OperateDate,XiaQuCode,
+                                     XiaQuName,OuGuid,ouName,CityLevel,OrderNum,ADDRESS)
+        VALUES
+        <foreach collection="insertList" item="orgaArea" separator=",">
+            (#{orgaArea.rowguid}, #{orgaArea.operateUserName}, #{orgaArea.operateDate},
+             #{orgaArea.xiaQuCode}, #{orgaArea.xiaQuName}, #{orgaArea.ouGuid}, #{orgaArea.ouName},
+             #{orgaArea.cityLevel}, #{orgaArea.orderNum}, #{orgaArea.address})
+        </foreach>
+    </insert>
+
+    <!--在 SELECT 语句中使用 <foreach>-->
+    <select id="selectOrgaArea" resultType="com.springboot.demo.entry.AuditOrgaArea">
+        SELECT * FROM audit_orga_area
+        WHERE CityLevel IN
+        <foreach item="cityLevel" index="index" collection="cityLevels" open="(" separator="," close=")">
+            #{cityLevel}
+        </foreach>
+    </select>
+
+
+    <!--在 UPDATE 语句中使用 <foreach>-->
+    <update id="updateOrgaArea">
+        <foreach collection="updateList" item="orgaArea" separator=";">
+            UPDATE audit_orga_area
+            SET XiaQuName = #{orgaArea.xiaQuName}
+            WHERE RowGuid = #{orgaArea.rowguid}
+        </foreach>
+    </update>
+
+    <!--在 DELETE 语句中使用 <foreach>-->
+    <delete id="deleteOrgaArea">
+        DELETE FROM audit_orga_area
+        WHERE Rowguid IN
+        <foreach item="rowguid" index="index" collection="rowguids" open="(" separator="," close=")">
+            #{rowguid}
+        </foreach>
+    </delete>
+
+    <resultMap type="com.springboot.demo.entry.AuditOrgaArea" id="AuditOrgaAreaMap">
+   <!-- 用id属性来映射主键字段-->
+        <id property="rowguid" column="rowguid" />
+ <!-- 用result属性来映射非主键字段，property为实体类属性名，column为数据库表中的属性 -->
+        <result property ="ouguid" column ="guid"/>
+        <result property="ouname" column="name" />
+    </resultMap>
+
+
 </mapper>
