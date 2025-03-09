@@ -35,8 +35,8 @@
 
 
 7、NoClassDefFoundError 和 ClassNotFoundException 区别？
-    NoClassDefFoundError： 是一个 Error 类型的异常，是由 JVM 引起的，不应该尝试捕获这个异常；引起该异常的原因是编译时该类存在，但是在运行时却找不到了 如 jar冲突
-    ClassNotFoundException： 是一个Exception类型的异常，需要捕获和处理。如 使用Class.forName, ClassLoader.loadClass 或 ClassLoader.findSystemClass动态加载类的时候没有找到该类
+    NoClassDefFoundError： Error 类型的异常，是由 JVM 引起的，不应该尝试捕获这个异常；引起该异常的原因是编译时该类存在，但是在运行时却找不到了 如 jar冲突
+    ClassNotFoundException： Exception类型的异常，需要捕获和处理。如 使用Class.forName, ClassLoader.loadClass 或 ClassLoader.findSystemClass动态加载类的时候没有找到该类
 
 
 8、try-catch-finally 中哪个部分可以省略？

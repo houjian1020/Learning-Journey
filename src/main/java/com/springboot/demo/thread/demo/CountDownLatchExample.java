@@ -36,6 +36,7 @@ public class CountDownLatchExample {
         // 任务A，需要等待其他所有任务完成后才能执行
         Runnable taskA = () -> {
             try {
+                System.out.println("任务A:等待计数器归零");
                 // 等待CountDownLatch的计数器归零
                 latch.await();
                 // 当计数器归零时，执行任务A

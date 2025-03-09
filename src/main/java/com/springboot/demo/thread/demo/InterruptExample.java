@@ -72,7 +72,7 @@ public class InterruptExample {
         System.out.println("主线程的中断状态（通过interrupted()方法）: " + Thread.interrupted()); // 输出false，因为主线程没有被中断
 
         // 使用isInterrupted()方法检查我们创建的thread线程是否被中断，不会清除中断标志
-        System.out.println("thread线程的中断状态（通过isInterrupted()方法）: " + thread.isInterrupted()); // 输出true，因为thread线程已经被中断
+        System.out.println("thread线程的中断状态（通过isInterrupted()方法）: " + thread.isInterrupted()); // 无sleep输出true 反之输出false，因为thread线程sleep时无法中断
 
         // 等待thread线程结束
         thread.join();

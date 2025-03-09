@@ -8,9 +8,9 @@ public class ThreadPoolExecutorExample {
     public static void main(String[] args) {
         // 创建线程池的核心参数
         // 1、核心线程数
-        int corePoolSize = 5;
+        int corePoolSize = 3;
         // 2、最大线程数
-        int maximumPoolSize = 10;
+        int maximumPoolSize = 5;
         // 4、非核心线程的空闲存活时间
         long keepAliveTime = 60;
         // 5、keepAliveTime的时间单位

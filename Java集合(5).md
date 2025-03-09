@@ -145,6 +145,7 @@ Collection
     算法实现：HashMap在put元素时，利用key的hashCode（）方法来计算键的哈希值对应数组中的下标；
             如果出现hash值相同的key，如果key相同，则覆盖原Value值；如果key不同（出现哈希冲突），则将当前的key-value放入链表中
             获取时，直接找到hash值对应的下标，在进一步判断key是否相同，从而找到对应值。
+    扩容机制：默认容量数组长度16，默认阈值0.75；容量大于16*0.75时扩容， 16*2 （好处，数据迁移时，只有部分数据需要迁移）
     数据结构图：![img_9.png](img_9.png)
 
 25、HashMap在JDK1.7和JDK1.8中有哪些不同？
@@ -155,7 +156,7 @@ Collection
 26、什么是红黑树
     定义：一种特殊的二叉查找树。每个结点上增加一个存储位表示节点的颜色
     特性：节点要么红色或黑色；根节点是黑色；所有叶子都是黑色；如果一个节点是红色的，则它的两个子节点都是黑色
-    操作：在对红黑树进行添加或删除之后，都会用到旋转方法和重新着色；搜索操作与普通二叉查找树相同
+    操作：在对红黑树进行添加或删除之后，都会用到旋转方法和重新着色；搜索操作与普通二叉查找树相同（新插入的节点默认红色，然后旋转、重新着色）
 
 27、HashMap的put方法的具体流程？![img_11.png](img_11.png)
     计算哈希值‌：键（key）调用 hashCode() 方法，计算其哈希值
@@ -175,7 +176,7 @@ Collection
     将每个桶（bucket）中的元素重新分布到新的Node数组中,扩容后需要重新分布元素
 
 
-29、HashMap中String、Integer等包装类适合作为K的原因
+29、HashMap中String、Integer等包装类适合作为Key的原因
     不可变性‌:String、Integer保存数据的变量都有final关键字；String保存到：private final char[] value    Integer保存到：private final int value
     减少Hash冲突:重写了hashCode() equals()方法
 

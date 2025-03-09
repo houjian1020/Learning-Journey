@@ -28,10 +28,35 @@ server:
 #      id-type: 0
 
 
-#  mysql配置项
+
 spring:
+  #  mysql配置项
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: houj@123
     url: jdbc:mysql://localhost:3306/dbtest?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+  # rabbitmq配置项
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    # none‌（默认值）：禁用发布确认模式
+    # correlated‌：消息从生产者发送到交换机后，RabbitMQ会触发回调方法
+    # simple‌：与correlated模式类似，也会触发回调方法,如果waitForConfirmsOrDie方法返回false，则会关闭channel
+    publisher-confirm-type: correlated   # 生产者：发布确认模式；rabbitTemplate.setConfirmCallback 来监听
+    # 消息无法路由到队列,将这个消息返回给生产者 rabbitTemplate.ReturnsCallback 来监听
+    publisher-returns: true
+    # 强制将这个消息返回给生产者；与publisher-returns一起使用
+    template:
+      mandatory: true
+    listener:
+      simple:
+        # none‌：自动确认模式（默认值)
+        # auto‌：自动确认模式（根据异常情况）
+        # manual‌：手动确认模式
+        acknowledge-mode: manual    # 消费者：手动ack
+        prefetch: 10  # 在未ack确认前,最多可以向该消费者推送10条消息
+

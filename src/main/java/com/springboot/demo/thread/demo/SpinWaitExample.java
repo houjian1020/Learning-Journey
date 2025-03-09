@@ -1,5 +1,7 @@
 package com.springboot.demo.thread.demo;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class SpinWaitExample {
     private volatile boolean flag = false;
 

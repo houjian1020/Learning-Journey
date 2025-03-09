@@ -18,7 +18,7 @@
 
 
 4、多线程应用场景？
-    数据库连接池、文件下载、分批发送短信
+    处理大批量数据、数据库连接池、文件下载、分批发送短信
 
 
 5、Java 程序中怎么保证多线程的运行安全？
@@ -122,13 +122,13 @@
     // 2 提交任务并获取Future对象
     Future<String> future = executor.submit(MyCallable);
 
-    // 2使用FutureTask来包装Callable任务
-    FutureTask<Integer> futureTask = new FutureTask<>(task);
-    // 提交FutureTask到ExecutorService
-    executor.execute(futureTask);
-
     // 3获取异步计算的结果
     Integer result = future.get();
+
+    // 2使用FutureTask来包装Callable任务
+    FutureTask<Integer> futureTask = new FutureTask<>(MyCallable);
+    // 提交FutureTask到ExecutorService
+    executor.execute(futureTask);
 
     // 3获取异步计算的结果
     Integer result = futureTask.get(); // 这会阻塞，直到任务完成
@@ -247,7 +247,9 @@ _~~19、线程的 run()和 start()有什么区别？~~_
     使当前线程从 运行状态  变为 就绪状态，所有就绪状态的线程重新获取cpu资源。
 
 32、为什么 Thread 类的 sleep()和 yield ()方法是静态的？
+    为了让开发者知道它们作用于当前线程，而不是其他线程
     Thread 类的 sleep()和 yield()方法将在 运行状态 的线程上执行
+
 
 33、线程的 sleep()方法和 yield()方法有什么区别？
     （1） sleep()方法给其他线程运行机会时不考虑线程的优先级；yield()方法只会给相同优先级或更高优先级的线程以运行的机会；
@@ -285,8 +287,9 @@ _~~19、线程的 run()和 start()有什么区别？~~_
     在 java 虚拟机中，监视器和锁（对象引用）在Java虚拟机中是一块使用的。监视器 监视一块同步代码块，确保一次只有一个线程执行同步代码块。
 
 39、如果你提交任务时，线程池队列已满，这时会发生什么？
-    无界队列：如LinkedBlockingQueue 无穷大的队列，可以无限存放任务
-    有界队列：如ArrayBlockingQueue  ArrayBlockingQueue 满了，会根据maximumPoolSize 的值增加线程数量，如果增加了线程数量还是处理不过来，ArrayBlockingQueue 继续满，那么则会使用拒绝策略RejectedExecutionHandler处理满了的任务
+    线程池队列已满，线程数也达到最大线程数，那么会根据线程池所配置的拒绝策略来处理新提交的任务
+    ~~无界队列：如LinkedBlockingQueue 无穷大的队列，可以无限存放任务
+    有界队列：如ArrayBlockingQueue  ArrayBlockingQueue 满了，会根据maximumPoolSize 的值增加线程数量，如果增加了线程数量还是处理不过来，ArrayBlockingQueue 继续满，那么则会使用拒绝策略RejectedExecutionHandler处理满了的任务~~
 
 
 40、什么叫线程安全？servlet 是线程安全吗?
@@ -551,7 +554,7 @@ _~~19、线程的 run()和 start()有什么区别？~~_
     饥饿：一个或者多个线程因为种种原因无法获得所需要的资源，导致一直无法执行的状态。
     Java 中导致饥饿的原因：
         1、高优先级线程吞噬所有的低优先级线程的 CPU 时间。
-        2、线程被永久堵塞在一个等待进入同步块的状态，因为其他线程总是能在它之前持续地对该同步块进行访问。
+        2、线程被永久堵塞在一个等待         进入同步块的状态，因为其他线程总是能在它之前持续地对该同步块进行访问。
         3、线程在等待一个本身也处于永久等待完成的对象(比如调用这个对象的 wait 方法)，因为其他线程总是被持续地获得唤醒
 
 
@@ -609,15 +612,15 @@ _~~19、线程的 run()和 start()有什么区别？~~_
 
 
 82、线程池都有哪些状态？
-    running：正常的状态，接受新的任务，处理等待队列中的任务。
-    shutdown：不接受新的任务提交，但是会继续处理等待队列中的任务。
-    stop：不接受新的任务提交，不再处理等待队列中的任务，中断正在执行任务的线程。
-    tidying：当所有任务已终止，且线程池中的任务数量为0时，线程池进入此状态。此时会执行terminated()方法。
-    terminated：线程池彻底终止。线程池在tidying状态执行完terminated()方法后进入此状态‌。
+    running（运行状态）：接受新的任务，处理等待队列中的任务。
+    shutdown（关闭状态）：不接受新的任务提交，但是会继续处理等待队列中的任务。
+    stop（停止状态）：不接受新的任务提交，不再处理等待队列中的任务，中断正在执行任务的线程。
+    tidying（整理状态）：当所有任务已终止，且线程池中的任务数量为0时，线程池进入此状态。此时会执行terminated()方法。
+    terminated（终止状态）：线程池在tidying状态执行完terminated()方法后进入此状态‌。
 
 
-83、线程池中 submit() 和 execute() 方法有什么区别？
-    相同点：向线程池提交任务
+83、线程池中 ThreadPoolExecutor/ExecutorService的的 submit() 和 ThreadPoolExecutor/ExecutorService的 execute() 方法有什么区别？
+    相同点：向线程池提交任务 
     不同点：
         接收参数：execute()只能接收 Runnable 类型的参数；submit()只能接收 Runnable 和Callable 类型的参数。
         返回值：submit()方法返回一个Future 对象；而execute()没有返回值，只把任务提交给线程池去执行。
