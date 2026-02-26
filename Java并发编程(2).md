@@ -75,7 +75,7 @@
     死锁是指两个或两个以上的进程（线程）在执 行过程中，由于竞争资源或者由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去。
     即：线程之间由于资源竞争造成的一种阻塞现象
 
-15、形成死锁的四个必要条件是什么？
+15、形成死锁的四个必要条件是什么？(重点)
     互斥条件： 一个资源仅为一个线程所占有
     请求和保持条件： 已经持有了一个资源，但是又要访问一个新的被其他线程占用的资源
     不可剥夺条件： 线程对已经获取的资源未使用完之前不能被剥夺
@@ -90,7 +90,7 @@
 
 
 
-17、创建线程的四种方式？
+17、创建线程的四种方式？(重点)
 
     继承 Thread 类run()方法
     public class MyThread extends Thread {
@@ -152,7 +152,7 @@
 	}
 
 
-18、说一下 runnable 和 callable 有什么区别？
+18、说一下 runnable 和 callable 有什么区别？(重点)
     Runnable 接口 run 方法无返回值；
     Callable 接口 call 方法有返回值，是个泛型，和Future或者FutureTask配合可以用来获取异步执行的结果
     Runnable 接口 run 方法只能抛出运行时异常，且无法捕获处理；
@@ -180,7 +180,7 @@ _~~19、线程的 run()和 start()有什么区别？~~_
 22、什么是 FutureTask？
     FutureTask 里面可以传入一个 Callable 的具体实现类，可以对这个异步运算的任务的结果进行等待获取
 
-23、线程的状态
+23、线程的状态(重点)
     新建(new)：新创建了一个线程对象。
     就绪（可运行状态）(runnable)：调用start()方法，该线程处于就绪状态，获取cpu的使用权。
     运行(running)：就绪状态的线程获得了cpu时间片，执行程序代码。
@@ -265,24 +265,25 @@ _~~19、线程的 run()和 start()有什么区别？~~_
     设置标志位
 
 
-35、Java 中 interrupt 和 interrupted 和 isInterrupted 方法的区别？  InterruptExample.java
+35、Java 中 interrupt 和 interrupted 和 isInterrupted 方法的区别？  InterruptExample.java(重点)
     interrupt：非静态方法，用于中断线程。调用该方法的线程的状态为将被置为”中断”状态。
     注意：线程中断仅仅是置线程的中断状态位，不会停止线程。需要用户自己去监视线程的状态为并做处理。线程中断后会抛出interruptedException
-    interrupted：是静态方法，查看当前中断信号是true还是false并且清除中断信号。如果一个线程被中断了，第一次调用 interrupted 则返回 true，第二次和后面的就返回 false 了。
     isInterrupted：非静态方法，是可以返回当前中断信号  是true还是false，与interrupt最大的差别
+    interrupted：是静态方法，查看当前中断信号是true还是false并且清除中断信号。如果一个线程被中断了，第一次调用 interrupted 则返回 true，第二次和后面的就返回 false 了。
+
 
 
 36、同步方法和同步块，哪个是更好的选择？
     同步块是更好，同步的范围越小越好。
 
-37、什么是线程同步，有哪几种实现方式？  SyncExample.java
+37、什么是线程同步，有哪几种实现方式？  SyncExample.java(重点)
     同步代码方法：sychronized 关键字修饰的方法
     同步代码块：sychronized 关键字修饰的代码块
     volatile关键字：为域变量的访问提供了一种免锁机制
     重入锁实现线程同步：reentrantlock类是可重入、互斥,实现了Lock接口的锁他与sychronized方法具有相同的基本行为和语义
 
 
-38、在监视器(Monitor)内部，是如何做线程同步的？
+38、在监视器(Monitor)内部，是如何做线程同步的？(重点)
     线程同步：通过锁机制实现的，java 提供了 显式监视器( Lock ) 和 隐式监视器( synchronized ) 两种锁方案
     在 java 虚拟机中，监视器和锁（对象引用）在Java虚拟机中是一块使用的。监视器 监视一块同步代码块，确保一次只有一个线程执行同步代码块。
 
@@ -394,30 +395,29 @@ _~~19、线程的 run()和 start()有什么区别？~~_
                 synchronized 方法占用的锁是当前类的锁，而访问非静态 synchronized 方法占用的锁是当前实
                 例对象锁。
 
-57、单例模式了解吗？给我解释一下双重检验锁方式实现单例模式！ SingletonExample.java
+57、单例模式了解吗？给我解释一下双重检验锁方式实现单例模式！ SingletonExample.java (重点)
     单例模式：确保一个类只有一个实例
     双重检验锁（Double-Checked Locking）：是实现单例模式的一种常用方式，它既能保证延迟加载，又能保证线程安全，同时内存效率较高。
     volatile：这是实现双重检验锁的关键主要有两个作用：保证实例的可见性   ‌禁止指令重排序
 
-58、说一下 synchronized 底层实现原理？
-    synchronized ：是通过监控器（Monitor）来实现的。每个对象都与一个监控器相关联，监控器负责跟踪对象的锁状态。
-    监控器的结构‌：监控器内部包含一个锁（Lock）和一个等待队列（Wait Set）
+58、说一下 synchronized 底层实现原理？(重点)
+    synchronized ：是通过监视器（Monitor）来实现的。每个对象都与一个监控器相关联，监控器负责跟踪对象的锁状态。
+    监视器的结构‌：持有锁的线程标识（threadid）和一个等待队列（Wait Set）和 锁重入计数器
     锁的获取与释放：当线程尝试进入 synchronized 块时，它会尝试获取监控器中的锁。如果锁已被其他线程持有，则当前线程会被加入到等待队列中。当锁被释放时，等待队列中的一个线程会被唤醒并尝试获取锁
     等待与通知：synchronized 还与 wait() 和 notify()/notifyAll() 方法相关联，这些方法用于线程间的通信
 
 
-59、synchronized可重入的原理？ReentrantSyncExample.java
-    重入锁：指一个线程获取到该锁之后，该线程可以继续获得该锁。
-    底层原理：维护一个计数器，当线程获取该锁时，计数器加一，再次获得该锁时继续加一，
-            释放锁时，计数器减一，当计数器值为0时，表明该锁未被任何线程所持有，其它线程可以竞争获取锁。
+59、synchronized可重入的原理？ReentrantSyncExample.java (重点)
+重入锁：指一个线程获取到该锁之后，该线程可以继续获得该锁。
+底层原理：维护一个锁重入计数器，当线程获取该锁时，重入计数器加一，再次获得该锁时继续加一，
+释放锁时，重入计数器减一，当重入计数器值为0时，表明该锁未被任何线程所持有，其它线程可以竞争获取锁。
 
 
-60、什么是自旋？SpinWaitExample.java
+60、什么是自旋？SpinWaitExample.java (重点)
     当线程尝试获取一个锁但锁当前被另一个线程持有时，它可能会选择自旋等待而不是进入等待队列。
     这通常是为了减少线程上下文切换的开销，特别是在锁很快就被释放的情况下。
 
-
-61、多线程中 synchronized 锁升级的原理是什么？
+61、多线程中 synchronized 锁升级的原理是什么？ (重点)
     锁升级的原理：在锁对象的对象头里面有一个 threadid 字段，在第一次访问的时候
                 threadid 为空，jvm 让其持有偏向锁，并将 threadid 设置为其线程 id，再次进入的时候会先判断
                 threadid 是否与其线程 id 一致，如果一致则可以直接使用此对象，如果不一致，则升级偏向锁为
@@ -447,14 +447,14 @@ _~~19、线程的 run()和 start()有什么区别？~~_
     （2）volatile： 保证变量的可见性，但不保证原子性，禁止指令重排序优化，。
     （3）CAS（Compare-And-Swap） ：java.util.concurrent.atomic 包提供了基于 CAS 的原子类。乐观锁（非阻塞），可以避免线程阻塞和上下文切换，但可能导致忙等待和高CPU消耗。
 
-65、synchronized 和 Lock（ReentrantLock） 有什么区别？
+65、synchronized 和 Lock（ReentrantLock） 有什么区别？(重点)
     synchronized是关键字，Lock是个Java类；
     synchronized 可以给类、方法、代码块加锁；而 lock 只能给代码块加锁。
     synchronized 不需要手动获取锁和释放锁，发生异常会自动释放锁，不会造成死锁；lock 需要自己加锁和释放锁，如果使用不当没有 unLock()去释放锁就会造成死锁。
     Lock 可以知道有没有成功获取锁，synchronized 却无法办到。
 
 
-66、volatile 关键字的作用？
+66、volatile 关键字的作用？(重点)
     volatile 关键字保证可见性和禁止指令重排序
     实践角度而言，volatile 的一个重要作用就是和 CAS技术 结合，保证了原子性，详细的可以参见java.util.concurrent.atomic 包下的类，比如 AtomicInteger。
     volatile 常用于多线程环境下的单次操作(单次读或者单次写)
@@ -498,7 +498,7 @@ _~~19、线程的 run()和 start()有什么区别？~~_
 
 
 
-72、乐观锁和悲观锁的理解及如何实现，有哪些实现方式？
+72、乐观锁和悲观锁的理解及如何实现，有哪些实现方式？(重点)
     ‌乐观锁‌：
         ‌理解‌：乐观锁假设数据冲突较少，在访问数据时不加锁，只在更新时检查数据是否被修改。
         ‌实现方式‌：
@@ -513,7 +513,7 @@ _~~19、线程的 run()和 start()有什么区别？~~_
     应用场景：数据冲突概率高时适合悲观锁，冲突低时适合乐观锁
 
 
-73、什么是 CAS
+73、什么是 CAS(重点)
     CAS ： compare and swap 的缩写，即我们所说的比较交换。
     三个操作数：内存位置（V）、预期原值（A）、新值(B)。
     CAS 是一种基于锁的操作，而且是乐观锁。CAS主要通过java.util.concurrent.atomic包下的类实现，如AtomicInteger、AtomicBoolean、AtomicLong等。
@@ -521,7 +521,7 @@ _~~19、线程的 run()和 start()有什么区别？~~_
 
 
 
-74、CAS 会产生什么问题？
+74、CAS 会产生什么问题？(重点)
     1、ABA 问题：
     比如说一个线程 one 从内存位置 V 中取出 A，这时候另一个线程 two 也从内存中取出 A，并且 two 进行了一些操作变成了 B，然后 two 又将 V 位置的数据变成 A，这时候线程 one 进行 CAS 操作发现内存中仍然是 A，然后 one 操作成功。尽管线程 one 的 CAS 操作成功，但可能存在潜藏的问题。从Java1.5 开始 JDK 的 atomic包里提供了一个类 AtomicStampedReference 来解决 ABA 问题。
     2、循环时间长开销大：
@@ -571,7 +571,7 @@ _~~19、线程的 run()和 start()有什么区别？~~_
         ‌避免竞争‌：有效避免线程间因资源竞争导致的死锁和性能下降问题‌。
 
 
-79、什么是ThreadPoolExecutor？   ThreadPoolExecutorExample.java
+79、什么是ThreadPoolExecutor？   ThreadPoolExecutorExample.java(重点)
     ThreadPoolExecutor就是线程池：通过传入不同的参数，构造出适用于不同应用场景下的ThreadPoolExecutor（线程池）
     构造参数参数介绍：
         corePoolSize 核心线程数量
@@ -594,7 +594,7 @@ _~~19、线程的 run()和 start()有什么区别？~~_
 
 
 
-80、什么是Executors？  ExecutorsExample.java
+80、什么是Executors？  ExecutorsExample.java(重点)
     Executors:是一个工厂类，用于创建和管理各种类型的线程池。它提供了一系列静态方法，创建不同构造函数参数的ThreadPoolExecutor.
     常用静态方法:
         newFixedThreadPool(int nThreads):创建一个固定线程数的线程池
@@ -604,30 +604,30 @@ _~~19、线程的 run()和 start()有什么区别？~~_
         newSingleThreadScheduledExecutor():创建一个单线程的定时或周期性的任务执行器
 
 
-81、在 Java 中 Executor 和 Executors 的区别？
+81、在 Java 中 Executor 和 Executors 的区别？(重点)
     Executor：是一个基本的任务执行接口；
     ExecutorService：是一个扩展了Executor并添加了管理功能的接口；
     ThreadPoolExecutor：是一个实现了ExecutorService并提供灵活配置的线程池类。
     Executors：是一个工厂类，它提供了一系列静态方法，用于创建各种类型的线程池。
 
 
-82、线程池都有哪些状态？
-    running（运行状态）：接受新的任务，处理等待队列中的任务。
-    shutdown（关闭状态）：不接受新的任务提交，但是会继续处理等待队列中的任务。
-    stop（停止状态）：不接受新的任务提交，不再处理等待队列中的任务，中断正在执行任务的线程。
+82、线程池都有哪些状态？(重点)
+    running（运行状态）：接受新的任务，处理等待队列中的任务。submit()   execute()
+    shutdown（关闭状态）：不接受新的任务提交，但是会继续处理等待队列中的任务。 shutdown()
+    stop（停止状态）：不接受新的任务提交，不再处理等待队列中的任务，中断正在执行任务的线程。 shutdownNow()
     tidying（整理状态）：当所有任务已终止，且线程池中的任务数量为0时，线程池进入此状态。此时会执行terminated()方法。
     terminated（终止状态）：线程池在tidying状态执行完terminated()方法后进入此状态‌。
 
 
-83、线程池中 ThreadPoolExecutor/ExecutorService的的 submit() 和 ThreadPoolExecutor/ExecutorService的 execute() 方法有什么区别？
+83、线程池中 ThreadPoolExecutor/ExecutorService的的 submit() 和 ThreadPoolExecutor/ExecutorService的 execute() 方法有什么区别？(重点)
     相同点：向线程池提交任务 
     不同点：
-        接收参数：execute()只能接收 Runnable 类型的参数；submit()只能接收 Runnable 和Callable 类型的参数。
+        接收参数：execute()能接收 Runnable 类型的参数；submit()能接收 Runnable 和Callable 类型的参数。
         返回值：submit()方法返回一个Future 对象；而execute()没有返回值，只把任务提交给线程池去执行。
 
 
 
-84、线程池的执行原理？
+84、线程池的执行原理？(重点)
     处理流程如图：![img_1.png](img_1.png)
     线程池的处理流程如下：
     1.判断线程池里的 核心线程是否已满；如果未满，则创建线程执行任务；如果已满，则进入下个流程。
@@ -635,8 +635,8 @@ _~~19、线程的 run()和 start()有什么区别？~~_
     3.判断线程池里的 线程是否已满；如果未满，则创建线程执行任务；如果已经满，则采用拒绝策略来处理这个任务。
 
 
-85、如何合理分配线程池大小?
-    CPU密集型任务：消耗CPU资源，避免线程频繁切换导致的开销；线程池大小可设为CPU核心数+1；
+85、如何合理分配线程池大小?(重点)
+    CPU密集型任务：消耗CPU资源，避免线程频繁切换导致的开销；线程池大小可设为CPU核心数+1；最大线程数 = 核心线程数（或略高于核心线程数）
     IO密集型任务：涉及网络、文件读取等，CPU计算时间少，大部分时间等待I/O操作完成。可适当增加CPU核心数 如2-4倍
 
 
@@ -644,7 +644,7 @@ _~~19、线程的 run()和 start()有什么区别？~~_
 
 
 =============================================并发容器（集合）=======================================================
-86、你经常使用什么并发容器，为什么？
+86、你经常使用什么并发容器，为什么？(重点)
     Vector：线程安全的动态数组，通过synchronized关键字对方法加锁实现线程安全
     Hashtable：线程安全的键值对集合，通过synchronized关键字实现线程安全
     ConcurrentHashMap：线程安全的哈希表，适用于高并发的读写操作。采用锁分段技术，效率比Hashtable高

@@ -1,6 +1,7 @@
 package com.springboot.demo.collection.demo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.concurrent.ConcurrentHashMap;
@@ -59,7 +60,6 @@ public class IteratorExample {
 
         // 获取ArrayList的反向列表迭代器
         ListIterator<String> listIterator = list.listIterator(list.size());
-
         // 使用反向迭代器遍历ArrayList，并删除长度为5的字符串元素
         while (listIterator.hasPrevious()) {
             String fruit = listIterator.previous();

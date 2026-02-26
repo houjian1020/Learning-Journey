@@ -15,7 +15,7 @@ public class RabbitMQConfig {
     public static final String ROUTING_KEY = "info.#";
 
 
-    // 交换机
+    // 交换机  durable：交换机持久化
     @Bean("bootExchange")
     public Exchange bootExchange() {
         return ExchangeBuilder.topicExchange(EXCHANGE_NAME).durable(true).build();
@@ -25,7 +25,7 @@ public class RabbitMQConfig {
         return new TopicExchange(EXCHANGE_NAME, true, false);
     }*/
 
-    // 队列: 创建多个队列需声明多了方法
+    // 队列: 创建多个队列需声明多了方法   durable：队列持久化
     @Bean("bootQueue")
     public Queue bootQueue() {
         return QueueBuilder.durable(QUEUE_NAME).build();

@@ -10,7 +10,7 @@
                                 ‌运行时异常（Runtime Exception）‌：编译时不需要强制处理，如‌NullPointerException ArrayIndexOutBoundException  ClassCastException
 
 
-3、Java异常关键字
+3、Java异常关键字(重点)
     try – 用于监听。将可能抛出异常的代码放在try语句块内
     catch – 用于捕获异常。catch用来捕获try语句块中发生的异常。
     finally – 总是会被执行。主要用于回收在try块里打开的资源(如数据库连接、网络连接和磁盘文件)。
@@ -19,7 +19,9 @@
     throw – 抛出一个异常对象
     throws – 用于声明该方法可能抛出的异常
 
-4、如何选择异常处理方式
+
+
+4、如何选择异常处理方式(重点)
     如图：![img_3.png](img_3.png)
     try-catch: 可以解决的异常
     throw：解决不了的异常问题，且调用者不是必须处理
@@ -42,7 +44,7 @@
 8、try-catch-finally 中哪个部分可以省略？
     try块不能省略 catch块可以省略 finally块可以省略
 
-9、try-catch-finally 中，如果 try 中 return 了，finally 还会执行吗？ TryCatchExmaple.java
+9、try-catch-finally 中，如果 try 中 return 了，finally 还会执行吗？ TryCatchExmaple.java (重点)
     会执行，在 return 前执行。
     注意：如果finally中有return 无论 try-catch中是否有ruturn 都执行 finally中的return
 
@@ -58,6 +60,6 @@
     输出：ExampleA [根据里氏代换原则 能使用父类型的地方一定能使用子类型]
 
 
-11、 try-with-resource 语法  TryCatchExmaple.java
+11、 try-with-resource 语法  TryCatchExmaple.java (重点)
     如果资源实现java.lang.AutoCloseable或java.io.Closeable接口。
-    在try块中声明的资源，无论是正常完成还是由于异常退出，都会自动调用资源的close方法。
+    在try块中声明的资源，无论是正常完成还是由于异常退出，都会自动调用资源的close方法,无需在final手动关闭资源

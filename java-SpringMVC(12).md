@@ -7,7 +7,7 @@
         ‌丰富的扩展性‌：可以通过拦截器、过滤器等方式扩展功能，满足各种复杂需求
 
 
-2、Spring MVC的主要组件？![img_29.png](img_29.png)
+2、Spring MVC的主要组件？![img_29.png](img_29.png)   (重点)
     前端控制器(DispatcherServlet)：接收HTTP请求、响应结果，相当于转发器。
     处理器映射器(HandlerMapping)：根据请求的URL映射到具体处理器(Handler)
     处理器适配器(HandlerAdapter)：前端控制器（DispatcherServlet）通过 处理器适配器（HandlerAdapter）调用处理器（Handler）处理请求
@@ -16,10 +16,10 @@
     视图(View)：将模型数据渲染到用户界面上
 
 
-3、工作原理![img_30.png](img_30.png)
+3、工作原理![img_30.png](img_30.png)  (重点)
     （1）用户发送请求至前端控制器DispatcherServlet；
     （2） DispatcherServlet收到请求后，调用HandlerMapping处理器映射器；
-    （3）处理器映射器根据请求url找到具体的处理器，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet；
+    （3）处理器映射器根据请求url找到具体的处理器，生成处理器对象返回给DispatcherServlet；
     （4）DispatcherServlet 调用 HandlerAdapter处理器适配器；
     （5）HandlerAdapter 经过适配调用具体的处理器(Handler，也叫后端控制器)；
     （6）Handler执行完成返回ModelAndView；
@@ -43,14 +43,14 @@
     }
 
 
-5、Spring MVC常用的注解有哪些？
+5、Spring MVC常用的注解有哪些？  (重点)
     @Conntroller：控制器的注解，将一个类标记为控制器
     @RestController：是@Controller和@ResponseBody的组合
     @RequestMapping：用于处理请求 url 映射的注解，可用于类或方法上。
     @RequestBody：接收http请求的json数据，将json转换为java对象。
     @ResponseBody：将返回值转化为json对象响应给客户。
     @RequestParam：参数名不一致‌时使用
-
+    @PathVariable：从URI模板变量中获取值
 
 
 6、@PathVariable（路径变量）和@RequestParam的区别

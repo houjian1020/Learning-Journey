@@ -4,31 +4,32 @@
     作用：降低对象之间的耦合度；管理对象，即如何创建对象和维护对象之间的关系
 
 
-2、Spring的俩大核心概念
+2、Spring的俩大核心概念(重点)
     IOC（Inversion of Control，控制翻转）：
         控制翻转，也叫依赖注入；不需要手动new来创建对象，对象的创建、管理由Spring容器来负责
-        DI（依赖注入）： 实现IoC的一种方式；动态的向某个对象提供它所需的其他对象属性（对象）
+        DI（依赖注入）： 实现IOC的一种方式；通过构造器、Setter方法或注解（如@Autowired）注入依赖对象
     AOP（Aspect-Oriented Programming，面对切面编程）：
         定义：解决oop中遇到的一些问题，是oop的延续和扩展；
         作用：在不修改源代码的情况下，对功能进行增强
-
+        实现机制:JDK动态代理（基于接口）或CGLIB（基于子类）生成代理对象; 通过BeanPostProcessor实现代理增强
+        关键概念‌：切面（@Aspect）、切入点（@Pointcut）、通知（@Before/@After等）、目标对象、连接点
 
 3、Spring的优缺点是什么？
     优点‌：简化开发、解耦、支持AOP编程、支持声明式事务、方便集成优秀框架‌、支持Junit4
     缺点：配置繁琐、性能问题（使用了大量的反射机制）
 
 
-4、Spring由哪些模块组成？![img_26.png](img_26.png)
+4、Spring由哪些模块组成？![img_26.png](img_26.png)  (重点)
     spring core：提供了框架的基本组成部分，包括控制反转（Inversion of Control，IOC）和依赖注入（Dependency Injection，DI）。
-    spring aop：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。    
     spring beans：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。
     spring context：是spring core的扩展，使得Spring应用更加易于配置和管理。
+    spring aop：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。
     spring Web：提供了构建Web应用所需的各种功能，例如文件上传，如请求处理、视图解析、表单处理等
-    spring test：提供了对JUnit等测试框架的支持，得单元测试和集成测试更加便捷。
     spring jdbc：简化JDBC，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析。
+    spring test：提供了对JUnit等测试框架的支持，得单元测试和集成测试更加便捷。
 
 
-5、Spring 框架中都用到了哪些设计模式？
+5、Spring 框架中都用到了哪些设计模式？ (重点)
     工厂模式：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；
     单例模式：Bean默认为单例模式。
     代理模式：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；
@@ -40,7 +41,7 @@
     Bean的管理：ApplicationContext负责管理bean的创建、装配、初始化、销毁等全生命周期的管理。
     注解支持：Spring Context模块还提供了对注解的全面支持，简化配置工作
 
-7、什么是Spring IOC 容器？
+7、什么是Spring IOC 容器？ 
     IOC即 控制反转(Inversion of Control)，负责创建对象，管理对象（通过依赖注入（DI），装配，配置及生命周期管理），从而减轻了开发者的负担，提高了应用的可维护性和可扩展性
     实现机制：工厂模式+反射机制（根据传入的全类名，反射调用创建对象）
 
@@ -106,14 +107,15 @@
 
 
 
-17、解释Spring框架中bean的生命周期
+17、解释Spring框架中bean的生命周期 (重点)
     Bean的实例化‌：Spring对bean进行实例化；
     Bean属性的填充（依赖注入）：Spring将值和bean的引用注入到bean对应的属性中；
-    Bean的初始化‌：容器会调用Bean的初始化方法（如果有的话）
+    前置/后置处理(在初始化方法执行前,实现BeanPostProcessor接口)
+    Bean的初始化‌：容器会调用Bean的初始化方法（@PostConstruct 注解标记的方法）
     Bean的使用‌：容器会将Bean存储在内部的缓存中，以便在需要时能够快速获取
-    Bean的销毁‌：当容器关闭时，或者当Bean的作用域结束时（如request或session作用域的Bean），容器会调用Bean的销毁方法（如果有的话）
+    Bean的销毁‌：当容器关闭时，或者当Bean的作用域结束时（如request或session作用域的Bean），容器会调用Bean的销毁方法（@PreDestroy 注解标记的方法）
 
-18、哪些是重要的bean生命周期方法？ 你能重载它们吗？
+18、哪些是重要的bean生命周期方法？ 你能重载它们吗？ (重点)
     初始化方法‌：
         init-method属性：自定义初始化方法名
         @PostConstruct注解：来标记一个方法作为初始化方法
@@ -126,7 +128,7 @@
     Spring 容器中把bean组装到一起，依赖注入就是Bean装配的一种方式‌
 
 
-20、什么是bean的自动装配？
+20、什么是bean的自动装配？ (重点)
     Spring容器自动地处理Bean之间的依赖关系，而无需开发者显式地在配置文件或代码中指定这些依赖。如@Autowired注解
     
 
@@ -148,7 +150,7 @@
             </property>
         </bean>
 
-23、@Component, @Controller, @Repository, @Service 有何区别？
+23、@Component, @Controller, @Repository, @Service 有何区别？  (重点)
     @Component：通用的注解；用于标注一个普通bean
     @Controller：用于标注Spring MVC中的控制器类
     @Service：用于标注服务层的组件
@@ -161,11 +163,12 @@
     如果@Autowired(required=false)表示依赖项不是必需的
 
 
-25、@Autowired和@Resource之间的区别
+25、@Autowired和@Resource之间的区别  (重点)
     @Autowired和@Resource可用于：构造函数、成员变量、Setter方法
     @Autowired和@Resource之间的区别：
         @Autowired：Spring提供，只能按类型注入，当属性类型具有多个bean时不知道选择哪一个（可以设置它required属性为false）。
         @Resource：JDK提供，默认是按照名称来注入，只有当找不到与名称匹配的bean才会按照类型来注入
+    注意：类型具有多个bean指：接口多实现       按照名称注入指：@Service("AuditOrgaAreaServiceImpl")
 
 26、@Qualifier 注解有什么作用
     与 @Autowired配合使用，解决 @Autowired多个相同类型的 bean的缺点。Spring提供
@@ -194,7 +197,7 @@
     PROPAGATION_MANDATORY‌： 如果当前存在事务，则加入该事务； 如果当前没有事务，则抛出异常。
     PROPAGATION_NESTED‌： 如果当前存在事务，则在嵌套事务内执行； 如果当前没有事务，则创建一个新的事务； 嵌套事务是独立提交的，但如果外层事务回滚，嵌套事务也会回滚
 
-30、说一下 spring 的事务隔离？ 
+30、说一下 spring 的事务隔离？
     ISOLATION_DEFAULT‌： 使用数据库默认的隔离级别。不同的数据库可能有不同的默认隔离级别。
     ISOLATION_READ_UNCOMMITTED‌（读未提交）：可能会导致脏读（Dirty Read）
     ISOLATION_READ_COMMITTED‌（读已提交）： 可以避免脏读，但可能会出现不可重复读（Non-repeatable Read）
@@ -206,10 +209,10 @@
     不足：最细粒度只能作用到方法级别
 
 
-32、什么是AOP
+32、什么是AOP (重点)
     概念：面向切面编程，作为面向对象（OOP）的一种补充，用于将那些与业务无关，但却对多个对象产生影响的公共行为;
     名词：
-        1）Joinpoint     连接点：目标对象中所有可以增强的方法，叫做连接点
+        1）Joinpoint     连接点：目标对象中所有可以增强的方法，叫做连接点 public方法
         2）Pointcut      切入点： 匹配 增强/通知 所要 织入 的连接点，叫做切入点
         3）Advice        增强/通知：新增的功能 如：前置通知（before advice）、后置通知（after advice）、环绕通知（around advice）等
         4）Weaving       织入：将 增强/通知 应用到连接点形成切入点的过程，叫做织入
@@ -221,7 +224,7 @@
         cglib的动态代理：针对没有实现接口的类产生代理，生成当前类的子类对象
 
 
-33、Spring通知有哪些类型？
+33、Spring通知有哪些类型？ (重点)
     前置通知（Before）：在目标方法被调用之前调用通知功能；
     后置通知（After）：在目标方法完成之后调用通知，无论是否异常；
     返回通知（After-returning ）：在目标方法成功执行之后调用通知；
@@ -233,7 +236,7 @@
 34、什么是切面 Aspect？
     aspect 由 pointcount 和 advice 组成（切面是通知和切点的结合）; 切面通常是一个使用@Aspect注解标注的类
 
-35、基于注解的切面实现
+35、基于注解的切面实现 
     创建@Aspect注解修饰的增强对象，并在方法上加注解 Before、 Around、AfterReturning、 AfterThrowing、 After
 
 

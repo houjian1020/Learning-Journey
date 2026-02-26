@@ -9,7 +9,7 @@
     静态内容服务‌：Nginx擅长处理静态文件，如HTML、CSS、JavaScript等，直接读取并发送给客户端，提升服务效率
 
 
-3、为什么Nginx性能这么高？
+3、为什么Nginx性能这么高？ 
     异步非阻塞，可以处理2-3万并发连接数
 
 
@@ -50,7 +50,7 @@
 9、限流怎么做的？
     正常限制访问频率：
         # 定义一个限流区域，名称为"one"
-        # $binary_remote_addr 表示基于客户端的IP地址（以二进制形式）进行限流
+        # $binary_remote_addr 表示基于客户端的IP地址（以二进制形式）进行限流 
         # zone=one:10m 表示为限流区域"one"分配10MB的内存空间
         # rate=1r/m 表示每分钟允许1个请求通过
         limit_req_zone $binary_remote_addr zone=one:10m rate=1r/m;
@@ -91,7 +91,7 @@
 
 
 
-    限制并发连接数：
+限制并发连接数：
 
 
 

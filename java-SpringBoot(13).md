@@ -6,7 +6,7 @@
     SpringBoot：是快速开发框架
     SpringCloud：是完整的微服务框架 ，SpringCloud依赖于SpringBoot
 
-3、Spring Boot 的核心注解是哪个？它主要由哪几个注解组成的？
+3、Spring Boot 的核心注解是哪个？它主要由哪几个注解组成的？(重点)
     核心注解：启动类上面的@SpringBootApplication
     组成：
     @SpringBootConfiguration：组合了 @Configuration 注解，实现配置文件的功能。
@@ -17,7 +17,7 @@
 
 4、SpringBoot Starter的工作原理
     理解：SpringBoot就是由各种Starter组合起来的，自己也可以开发Starter
-    原理：通过依赖管理引入预定义的依赖集合，使用自动配置机制根据条件注解加载和配置必要的Bean，最后启动应用程序。
+    原理：通过 依赖管理 引入预定义的依赖集合，使用 自动配置 机制根据条件注解加载和配置必要的Bean，最后启动应用程序。
 
 
 5、运行 Spring Boot 有哪几种方式？
@@ -29,9 +29,10 @@
     在方法上使用@Async注解即可实现方法的异步调用。 注意：需要在启动类加入@EnableAsync
 
 
-7、如何在 Spring Boot 启动的时候运行一些特定的代码？  补充代码实例 
+7、如何在 Spring Boot 启动的时候运行一些特定的代码？  StartUpTask.java 
     实现ApplicationRunner接口，run方法接收一个ApplicationArguments对象
     实现CommandLineRunner接口，run方法接收一个String对象
+    Bean中使用 @PostConstruct 注解
 
 
 8、Spring Boot 有哪几种读取配置的方式？ 补充代码实例
@@ -51,7 +52,7 @@
         @Autowired‌：用于自动装配依赖的Bean
 
 
-10、SpringBoot的自动配置原理是什么？
+10、SpringBoot的自动配置原理是什么？(重点)
     @EnableAutoConfiguration‌用于启用自动配置：
         从配置文件META_INF/Spring.factories加载可能用到的自动配置类
         去重，并将exclude和excludeName属性携带的类排除
@@ -69,4 +70,10 @@
     使用第三方框架 Quartz
 
 
-
+13、SpringBoot 启动过程(重点)
+    初始化阶段：
+        启动入口：SpringApplication.run(primarySource, args)
+        初始化配置：推断Web应用类型（Servlet/Reactive/None）；从spring.factories 中加载配置类、监听器类
+        环境准备‌：加载配置源信息
+    容器创建与刷新：根据Web应用类型创建对应的上下文对象；刷新上下文（实例化Bean 启动内嵌Web服务器）
+    后置处理与就绪：

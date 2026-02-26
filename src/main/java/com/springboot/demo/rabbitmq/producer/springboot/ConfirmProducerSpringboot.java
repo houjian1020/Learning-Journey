@@ -57,9 +57,15 @@ public class ConfirmProducerSpringboot {
          */
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME,"info.confirm","开启确认模式和退回模式保证生产者消息可达。。。。。",new MessagePostProcessor() {
 
+            /**
+             * 消息持久化
+             * @param message
+             * @return
+             * @throws AmqpException
+             */
             @Override
             public Message postProcessMessage(Message message) throws AmqpException {
-                // 开启持久化：MessageDeliveryMode.PERSISTENT
+                // 消息持久化：MessageDeliveryMode.PERSISTENT
                 message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
                 return message;
             }

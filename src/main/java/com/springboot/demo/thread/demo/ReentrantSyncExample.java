@@ -7,14 +7,14 @@ public class ReentrantSyncExample {
     // 一个简单的共享资源
     private int count = 0;
 
-    // 一个synchronized方法
+    // 第一次获取锁
     public synchronized void increment() {
         // 调用另一个synchronized方法
         doWork();
         count++;
     }
 
-    // 另一个synchronized方法
+    // 第二次获取锁：重入
     public synchronized void doWork() {
         // 模拟一些工作
         System.out.println("Doing work...");

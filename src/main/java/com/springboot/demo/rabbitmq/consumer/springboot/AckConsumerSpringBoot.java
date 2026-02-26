@@ -20,8 +20,9 @@ public class AckConsumerSpringBoot {
 
             // 消息处理成功后确认消息
             /**
+             * 确认消息
              * deliveryTag：消息唯一标识标签
-             * multiple:true 时，否定确认直到 deliveryTag 为止的所有未确认消息；false 时，否定确认deliveryTag 的单条消息
+             * multiple:是否批量确认
              */
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
@@ -29,9 +30,10 @@ public class AckConsumerSpringBoot {
 
             // 消息处理失败时，可以选择重新入队或其他处理方式
             /**
+             * 拒绝消息
              * deliveryTag：消息唯一标识标签
              * multiple:true 时，否定确认直到 deliveryTag 为止的所有未确认消息；false 时，否定确认deliveryTag 的单条消息
-             * requeue：true 重新排队；false，消息会被丢弃或根据消息的属性（如是否设置了死信交换/队列）被发送到死信队列
+             * requeue：true 重新排队；   false  消息会被丢弃或根据消息的属性（如是否设置了死信交换/队列）被发送到死信队列
              */
              channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
         }

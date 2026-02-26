@@ -1,5 +1,7 @@
 package com.springboot.demo.thread.demo;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SpinWaitExample {

@@ -80,6 +80,7 @@
  <!-- 用result属性来映射非主键字段，property为实体类属性名，column为数据库表中的属性 -->
         <result property ="ouguid" column ="guid"/>
         <result property="ouname" column="name" />
+        <!-- 集合  对象属性都可以设置-->
     </resultMap>
 
 

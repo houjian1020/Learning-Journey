@@ -43,16 +43,17 @@ public class InterruptExample {
         Thread thread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 System.out.println("子线程正在运行...");
-                try {
-                    // 使线程休眠1秒
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
+/*                try {
+                    // 使sleep导致当前线程无法中断，捕获中断异常 通过break 退出循环
+                   Thread.sleep(1000);
+                }
+                catch (InterruptedException e) {
                     // 当线程休眠时被中断，会抛出InterruptedException异常
                     System.out.println("线程被中断，但仍在运行...（因为catch块中没有break退出循环）");
                     // 注意：此时线程的中断标志已经被设置，但线程还在运行
                     // 如果想要线程在捕获到中断异常后立即退出，可以在这里添加break语句或返回语句
                     break;
-                }
+                }*/
             }
             System.out.println("子线程已停止。");
         });

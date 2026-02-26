@@ -9,11 +9,11 @@
     解决：将Sql语句配置在XXXXmapper.xml文件中与java代码分离
 
 
-3、#{}和${}的区别
+3、#{}和${}的区别(重点)
     #{}是占位符，预编译处理；可以防止SQL注入
     ${}是拼接符，没有预编译处理；${} 不能防止SQL 注入
 
-4、模糊查询like语句该怎么写    MybatisExampleController.java
+4、模糊查询like语句该怎么写    MybatisExampleController.java (重点)
     CONCAT(’%’,#{question},’%’) 使用CONCAT()函数，（推荐）
 
 
@@ -30,6 +30,10 @@
     close 表示以什么结束，常用“)”
 
 
+7、MyBatis的一二级缓存及作用
+    作用域：SqlSession内部  跨SqlSession共享
+    存储方式：内存（非序列化）   内存/磁盘（需序列化）
+    适用场景：短事务内重复查询   低频变更的热点数据
 
 
 

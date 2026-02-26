@@ -18,11 +18,11 @@ public class RoutingProducer {
         // 1.创建连接工厂
         ConnectionFactory factory = new ConnectionFactory();
         // 2.设置连接参数
-        factory.setHost("localhost"); // 设置RabbitMQ服务器地址
-        factory.setPort(5672);// 设置RabbitMQ服务端口，默认为5672
-        factory.setVirtualHost("/"); // 设置RabbitMQ虚拟主机，默认为"/"
-        factory.setUsername("guest");// 设置RabbitMQ用户名，默认为"guest"
-        factory.setPassword("guest");// 设置RabbitMQ密码，默认为"guest"
+//        factory.setHost("localhost"); // 设置RabbitMQ服务器地址
+//        factory.setPort(5672);// 设置RabbitMQ服务端口，默认为5672
+//        factory.setVirtualHost("/"); // 设置RabbitMQ虚拟主机，默认为"/"
+//        factory.setUsername("guest");// 设置RabbitMQ用户名，默认为"guest"
+//        factory.setPassword("guest");// 设置RabbitMQ密码，默认为"guest"
         // 3.创建连接
         Connection connection = factory.newConnection();
         // 4.创建管道
