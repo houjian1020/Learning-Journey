@@ -11,21 +11,21 @@
 
 
 3、Java异常关键字(重点)
-    try – 用于监听。将可能抛出异常的代码放在try语句块内
+`   try – 用于监听。将可能抛出异常的代码放在try语句块内
     catch – 用于捕获异常。catch用来捕获try语句块中发生的异常。
     finally – 总是会被执行。主要用于回收在try块里打开的资源(如数据库连接、网络连接和磁盘文件)。
                 只有finally块，执行完成之后，才会回来执行try或者catch块中的return或者throw语句
                 如果finally中使用了return或者throw等终止方法的语句，则就不会跳回执行，直接停止。
     throw – 抛出一个异常对象
-    throws – 用于声明该方法可能抛出的异常
+    throws – 用于声明该方法可能抛出的异常`
 
 
 
 4、如何选择异常处理方式(重点)
     如图：![img_3.png](img_3.png)
-    try-catch: 可以解决的异常
+`   try-catch: 可以解决的异常
     throw：解决不了的异常问题，且调用者不是必须处理
-    throws：解决不了的异常问题，且调用者必须处理
+    throws：解决不了的异常问题，且调用者必须处理`
 
 
 5、Error 和 Exception 区别是什么？
@@ -60,6 +60,6 @@
     输出：ExampleA [根据里氏代换原则 能使用父类型的地方一定能使用子类型]
 
 
-11、 try-with-resource 语法  TryCatchExmaple.java (重点)
+`11、 try-with-resource 语法  TryCatchExmaple.java (重点)
     如果资源实现java.lang.AutoCloseable或java.io.Closeable接口。
-    在try块中声明的资源，无论是正常完成还是由于异常退出，都会自动调用资源的close方法,无需在final手动关闭资源
+    在try块中声明的资源，无论是正常完成还是由于异常退出，都会自动调用资源的close方法,无需在final手动关闭资源`

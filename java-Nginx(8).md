@@ -1,5 +1,5 @@
 1、什么是Nginx
-    Nginx是一个 轻量级/高性能的反向代理Web服务器;实现非常高效的反向代理、负载平衡
+`   Nginx是一个 轻量级/高性能的反向代理Web服务器;实现非常高效的反向代理、负载平衡、动静分离` 
 
 2、为什么要用Nginx
     反向代理与负载均衡‌：隐藏后端服务器地址，提高安全性；同时支持多种负载均衡算法
@@ -31,7 +31,7 @@
 
 
 6、Nginx的优缺点？
-    优点：占内存小、并发能力强、配置简单、反向代理、负载均衡、安全性好
+    优点：`占内存小、并发能力强、配置简单、反向代理、负载均衡、安全性好`
     缺点：动态处理差（处理静态文件好,耗费内存少）
 
 7、Nginx应用场景？
@@ -40,173 +40,112 @@
     反向代理，负载均衡：单台服务器不能满足用户的请求时，多台服务器集群可以使用nginx做反向代理，并且可以平均分担负载
 
 8、Nginx负载均衡的策略有哪些?
-    轮询（默认）：循环分发到不同的后端服务器，服务器down掉能自动剔除。适合服务器配置相当的服务使用‌![img_18.png](img_18.png)
+`   轮询（默认）：循环分发到不同的后端服务器，服务器down掉能自动剔除。适合服务器配置相当的服务使用‌![img_18.png](img_18.png)
     权重‌：在轮询基础上指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况‌![img_19.png](img_19.png)
-    IP绑定（ip_hash）： 每个请求按访问IP的hash结果分配，固定访客访问一个后端服务器，解决session问题‌![img_20.png](img_20.png)
+    IP绑定（ip_hash）： 每个请求按访问IP的hash结果分配，固定访客访问一个后端服务器，解决session问题‌![img_20.png](img_20.png)`
     fair(第三方插件)：对比 weight、ip_hash更加智能的负载均衡算法
     url_hash(第三方插件)：按访问url的hash结果来分配请求
 
 
-9、限流怎么做的？
-    正常限制访问频率：
-        # 定义一个限流区域，名称为"one"
-        # $binary_remote_addr 表示基于客户端的IP地址（以二进制形式）进行限流 
-        # zone=one:10m 表示为限流区域"one"分配10MB的内存空间
-        # rate=1r/m 表示每分钟允许1个请求通过
-        limit_req_zone $binary_remote_addr zone=one:10m rate=1r/m;
-        
-        # 在http块或server块中定义了一个虚拟主机（这里省略了其他server配置）
-        server {
-            # 定义一个location块，用于处理对/seckill.html的请求
-            location /seckill.html {
-                # 使用前面定义的限流区域"one"进行限流
-                limit_req zone=one;
-        
-                # 当请求被限流时，将请求转发到http://lj_seckill这个后端服务（可以是另一个服务器、应用或负载均衡器）
-                proxy_pass http://lj_seckill;
-            }
-        }
 
+完整配置示例：
 
-    突发限制访问频率：
-        # 定义限流维度，即基于客户端的IP地址进行限流
-        # $binary_remote_addr 表示使用客户端的IP地址（二进制形式）作为限流的键
-        # zone=one:10m 表示创建一个名为"one"的限流区域，并为其分配10MB的内存空间
-        # rate=1r/m 表示每分钟允许1个请求通过
-        limit_req_zone $binary_remote_addr zone=one:10m rate=1r/m;
-        
-        # 定义一个server块，其中包含对特定URI的限流配置
-        server {
-            # 定义一个location块，用于处理对/seckill.html的请求
-            location /seckill.html {
-                        # 绑定前面定义的限流区域"one"，并设置一些额外的限流参数
-                        # burst=5 表示允许一个突发请求队列，队列长度为5（即允许最多5个请求在短时间内超过限流速率）
-                        # nodelay 表示在队列中的请求不会延迟处理，而是立即执行（如果可能的话）
-                        limit_req zone=one burst=5 nodelay;
-                
-                        # 将请求转发到后端服务http://lj_seckill
-                        proxy_pass http://lj_seckill;
-                }
-        }
+# ================= 全局块 =================
+user nginx;                          # 指定运行 Nginx 进程的系统用户和组
+worker_processes auto;               # 设置工作进程数，auto 表示自动与 CPU 核心数一致
+error_log /var/log/nginx/error.log warn; # 定义全局错误日志的路径及记录级别（warn及以上）
+pid /var/run/nginx.pid;              # 记录 Nginx 主进程 PID 的文件路径
 
-
-
-限制并发连接数：
-
-
-
-Nginx配置文件nginx.conf有哪些属性模块? 
-全局设置模块：
-    # 指定Nginx运行时的用户及用户组
-    user nginx nginx;
-    
-    # 定义Nginx工作进程的数量，通常与CPU核心数相匹配
-    worker_processes 4;
-    
-    # 指定错误日志的路径和日志级别（debug, info, notice, warn, error, crit, alert, emerg）
-    error_log /var/log/nginx/error.log warn;
-    
-    # 指定Nginx主进程的PID文件路径
-    pid /var/run/nginx.pid;
-
-事件模块:
-# 定义事件处理模型
+# ================= 事件块 =================
 events {
-    # 在Linux上使用epoll事件模型（默认），在其他平台上可能需要使用其他模型如kqueue、select等
-    use epoll;
-    
-    # 设置单个工作进程可以同时建立的最大连接数
-    worker_connections 1024;
+worker_connections 1024;         # 设置每个工作进程允许的最大并发连接数
+use epoll;                       # 使用 epoll 模型，大幅提升 Linux 下的高并发网络 I/O 性能
 }
 
-HTTP模块:
-# 定义HTTP服务器的配置
+# ================= HTTP 全局块 =================
 http {
-    # 包含其他配置文件，便于管理
-    include /etc/nginx/mime.types;
+include mime.types;              # 引入 MIME 类型映射文件，让 Nginx 能正确识别各类文件的 Content-Type
+default_type application/octet-stream; # 对于无法识别的文件，默认作为二进制流处理
 
-    # 默认文件类型
-    default_type application/octet-stream;
-
-    # 定义日志格式
+    # 定义访问日志的格式，记录客户端IP、时间、请求内容、状态码、浏览器UA等
     log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
+                   '$status $body_bytes_sent "$http_referer" '
+                   '"$http_user_agent" "$http_x_forwarded_for"';
+    access_log /var/log/nginx/access.log main; # 指定访问日志路径并应用上述格式
 
-    # 指定访问日志的路径和格式
-    access_log /var/log/nginx/access.log main;
+    # 性能优化参数
+    sendfile on;                     # 开启零拷贝文件传输，静态资源提速必备
+    tcp_nopush on;                   # 配合 sendfile，将数据包累积到一定大小后再发送，减少网络报文数量
+    keepalive_timeout 65;            # 设置客户端长连接的超时时间为 65 秒
+    gzip on;                         # 开启 Gzip 压缩，大幅减少传输体积
 
-    # 发送超时时间
-    send_timeout 30;
+    # ================= 1. 负载均衡配置 =================
+    # 定义上游服务器组（后端 API 集群）
+    upstream api_servers {
+        # 采用加权轮询策略，weight 值越大，分配到的请求比例越高
+        server 192.168.1.101:8080 weight=3 max_fails=3 fail_timeout=30s; # 主节点1，权重3，30秒内失败3次则标记为不可用
+        server 192.168.1.102:8080 weight=2 max_fails=3 fail_timeout=30s; # 主节点2，权重2
+        server 192.168.1.103:8080 backup;                                # 备用节点，仅当所有主节点都宕机时才启用
+    }
 
-    # 连接超时时间
-    keepalive_timeout 65;
-
-    # 开启gzip压缩
-    gzip on;
-
-    # 定义一个虚拟主机/域名
+    # ================= 2. HTTP 自动跳转 HTTPS =================
     server {
-        # 指定监听的IP地址和端口，可以是80（HTTP）或443（HTTPS）等
-        listen 80;
+        listen 80;                   # 监听 80 端口，接收未加密的 HTTP 请求
+        server_name www.example.com; # 绑定的域名
+        return 301 https://$host$request_uri; # 返回 301 永久重定向，将用户的 HTTP 请求强制跳转到对应的 HTTPS 地址
+    }
 
-        # 定义域名，可以使用通配符或正则表达式
-        server_name example.com;
+    # ================= 3. HTTPS 主服务 + 动静分离 + 反向代理 =================
+    server {
+        listen 443 ssl http2;        # 监听 443 端口，开启 SSL 加密并启用 HTTP/2 协议
+        server_name www.example.com; # 绑定的域名
 
-        # 处理静态文件请求的根目录
-        root /usr/share/nginx/html;
+        # --- SSL 证书与安全配置 ---
+        ssl_certificate      /etc/nginx/ssl/www.example.com.pem;  # 指定 SSL 证书文件路径
+        ssl_certificate_key  /etc/nginx/ssl/www.example.com.key;  # 指定 SSL 证书对应的私钥文件路径
+        ssl_protocols TLSv1.2 TLSv1.3;                            # 限制仅允许使用安全的 TLS 协议版本
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5; # 配置加密套件，禁用不安全的算法
+        ssl_prefer_server_ciphers on;                             # 优先使用服务端的加密套件配置
+        ssl_session_cache shared:SSL:10m;                         # 开启 SSL 会话缓存，减少重复握手开销
+        ssl_session_timeout 10m;                                  # 设置 SSL 会话缓存的超时时间
 
-        # 默认请求的文件，当URI为目录时返回这些文件之一
-        index index.html index.htm;
-
-        # 定义URI的处理规则
-        location / {
-            # 其他配置指令，如代理、重写等
+        # --- 4. 动静分离：静态资源托管 ---
+        # 匹配所有静态资源请求（如 CSS/JS/图片等）
+        location ~* \.(html|css|js|png|jpg|jpeg|gif|ico)$ {
+            root /data/static;         # 指定静态资源在服务器磁盘上的存放根目录
+            expires 7d;                # 设置浏览器缓存过期时间为 7 天，减轻服务器带宽压力
+            access_log off;            # 静态资源请求频繁，关闭访问日志以提升性能
         }
 
-        # 处理特定URI的配置，如错误页面
-        location /error {
-            # 返回404错误页面
-            return 404;
+        # --- 5. 反向代理：动态 API 请求转发 ---
+        # 匹配所有以 /api 开头的动态请求
+        location /api {
+            proxy_pass http://api_servers; # 将请求反向代理到前面定义的 upstream 负载均衡集群
+            
+            # 传递真实的客户端信息给后端，防止后端获取到 Nginx 的 IP
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto https; # 告知后端当前使用的是 HTTPS 协议
+        }
+
+        # --- 6. 根路径默认首页 ---
+        location ^~ / {
+            root /data/static/html;    # 前端打包后的静态文件目录
+            index index.html;          # 默认首页文件名
+            try_files $uri $uri/ /index.html; # 解决前端单页应用(SPA)刷新页面出现 404 的问题
         }
     }
 
-    # 其他server块配置...
+# ================= 7. 定义限流区域 =================
+    # 语法：limit_req_zone key zone=name:size rate=rate;
+    limit_req_zone $binary_remote_addr zone=api_limit:10m rate=10r/s;
+    # $binary_remote_addr : 使用客户端 IP 作为限流的标识（使用 binary_ 前缀可以压缩存储，节省内存空间）
+    # zone=api_limit:10m  : 分配 10MB 的共享内存空间，命名为 api_limit（10MB 约可存储 16万个 IP 的状态）
+    # rate=10r/s          : 限制每个 IP 每秒最多允许 10 个请求（也可配置为 30r/m 表示每分钟30个）
+
 }
 
 
-反向代理模块:
-    # 指定请求应被转发到的后端服务器地址
-    proxy_pass http://backend_server;
-
-    # 设置转发给后端服务器的请求头，可以添加、修改或删除请求头
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-
-负载均衡模块:
-    # 定义一组后端服务器，用于负载均衡
-    upstream backend_servers {
-    # 指定后端服务器的地址和参数，可以使用IP、域名或Unix套接字
-    server backend1.example.com weight=5;
-    server backend2.example.com;
-    # 其他后端服务器配置...
-    }
-    
-    # 在server块或location块内使用upstream定义的服务器组进行负载均衡
-    location / {
-    proxy_pass http://backend_servers;
-    }
-
-SSL/TLS模块:
-    # 指定SSL证书文件路径
-    ssl_certificate /etc/nginx/ssl/example.com.crt;
-    
-    # 指定SSL证书密钥文件路径
-    ssl_certificate_key /etc/nginx/ssl/example.com.key;
-    
-    # 指定支持的SSL/TLS协议版本
-    ssl_protocols TLSv1.2 TLSv1.3;
 
 

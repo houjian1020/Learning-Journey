@@ -1,23 +1,23 @@
 1什么是Spring MVC？简单介绍下你对Spring MVC的理解？
-    描述：基于Java的 实现了MVC设计模式 的请求驱动类型的 轻量级Web框架
+`   描述：基于Java的 实现了MVC设计模式 的请求驱动类型的 轻量级Web框架
     组成：模型（Model）、视图（View）和控制器（Controller）
     优点：
         ‌灵活性‌：支持多种视图技术
         ‌松耦合‌：通过接口和注解，组件间的耦合度较低，便于维护和扩展
-        ‌丰富的扩展性‌：可以通过拦截器、过滤器等方式扩展功能，满足各种复杂需求
+        ‌丰富的扩展性‌：可以通过拦截器、过滤器等方式扩展功能，满足各种复杂需求`
 
 
 2、Spring MVC的主要组件？![img_29.png](img_29.png)   (重点)
-    前端控制器(DispatcherServlet)：接收HTTP请求、响应结果，相当于转发器。
+`   前端控制器(DispatcherServlet)：接收HTTP请求、响应结果，相当于转发器。
     处理器映射器(HandlerMapping)：根据请求的URL映射到具体处理器(Handler)
     处理器适配器(HandlerAdapter)：前端控制器（DispatcherServlet）通过 处理器适配器（HandlerAdapter）调用处理器（Handler）处理请求
     处理器(Handler)：处理具体的业务逻辑,并返回ModelAndView对象给前端控制器（DispatcherServlet）
     视图解析器(ViewResolver)：根据ModelAndView中的视图名找到具体的视图对象，并将其返回给 前端控制器（DispatcherServlet）
-    视图(View)：将模型数据渲染到用户界面上
+    视图(View)：将模型数据渲染到用户界面上`
 
 
 3、工作原理![img_30.png](img_30.png)  (重点)
-    （1）用户发送请求至前端控制器DispatcherServlet；
+`   （1）用户发送请求至前端控制器DispatcherServlet；
     （2） DispatcherServlet收到请求后，调用HandlerMapping处理器映射器；
     （3）处理器映射器根据请求url找到具体的处理器，生成处理器对象返回给DispatcherServlet；
     （4）DispatcherServlet 调用 HandlerAdapter处理器适配器；
@@ -27,7 +27,7 @@
     （8）DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；
     （9）ViewResolver解析后返回具体View；
     （10）DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）
-    （11）DispatcherServlet响应用户
+    （11）DispatcherServlet响应用户`
 
 
 4、注解原理是什么
@@ -44,19 +44,19 @@
 
 
 5、Spring MVC常用的注解有哪些？  (重点)
-    @Conntroller：控制器的注解，将一个类标记为控制器
+`   @Conntroller：控制器的注解，将一个类标记为控制器
     @RestController：是@Controller和@ResponseBody的组合
     @RequestMapping：用于处理请求 url 映射的注解，可用于类或方法上。
     @RequestBody：接收http请求的json数据，将json转换为java对象。
     @ResponseBody：将返回值转化为json对象响应给客户。
     @RequestParam：参数名不一致‌时使用
-    @PathVariable：从URI模板变量中获取值
+    @PathVariable：从URI模板变量中获取值`
 
 
 6、@PathVariable（路径变量）和@RequestParam的区别
-    @PathVariable（路径变量）：用于从URI模板变量中获取值，通常用于RESTful风格的URL
-    @RequestParam：用于从请求参数中获取值
-
+`   @PathVariable（路径变量）：参数在 URL 路径中（/ 之间）
+    @RequestParam：参数在 URL 查询字符串中（? 之后）
+`
 
 7、Spring MVC怎么样设定重定向和转发的？   补充代码实例
     （1）转发：浏览器的地址栏url不变；会携带之前的请求参数；在返回值前面加"forward:“
